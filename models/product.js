@@ -36,7 +36,7 @@ module.exports = class Product {
         );
         const updatedProducts = [...products];
         updatedProducts[existingProductIndex] = this;
-        console.log(this)
+        console.log(this);
         fs.writeFile(p, JSON.stringify(updatedProducts), (err) => {
           console.log(err);
         });
@@ -44,6 +44,21 @@ module.exports = class Product {
         this.id = Math.random().toString();
         products.push(this);
         fs.writeFile(p, JSON.stringify(products), (err) => {
+          console.log(err);
+        });
+      }
+    });
+  }
+
+  static delProductById(id) {
+    getProductsFromFile((products) => {
+      
+      if (id) {
+        const filteredProduct = products.filter((prod) => prod.id !== id);
+        
+        const updatedProducts = [...filteredProduct];
+        
+        fs.writeFile(p, JSON.stringify(updatedProducts), (err) => {
           console.log(err);
         });
       }
