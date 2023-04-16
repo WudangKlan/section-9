@@ -40,12 +40,14 @@ exports.getCartJson = (req, res, next) => {
 };
 
 exports.getCart = (req, res, next) => {
-  Product.fetchAll((products) => {
-    Cart.getCart((cartData) => {
+  Cart.getCart((cartData) => {
+    Product.fetchAll((products) => {
       const cart = [];
-      for (let product of cartData.product) {
-        const data = products.find((prods) => prods.id === product.id);
-        cart.push({ cartProducts: data, qty: product.qty });
+      for (let product of products) {
+        const data = cartData.product.find((prod) => prod.id === product.id);
+        if (data) {
+          cart.push({ cartProducts: product, qty: data.qty });
+        }
       }
       // res.send({ message: cart });
       // res.end();
