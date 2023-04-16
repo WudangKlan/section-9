@@ -11,6 +11,8 @@ router.get("/products", shopController.getProducts);
 // /products/12313
 router.get("/products/:productId", shopController.getProduct);
 
+router.get("/cart-json", shopController.getCartJson);
+
 router.get("/cart", shopController.getCart);
 
 router.post("/cart", shopController.postCart);
