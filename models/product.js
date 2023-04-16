@@ -2,6 +2,7 @@
 // simpan ke products ke file jadi bukan ke memory(array)
 const fs = require("fs");
 const path = require("path");
+const Cart = require("./cart");
 
 const p = path.join(
   path.dirname(require.main.filename),
@@ -52,16 +53,19 @@ module.exports = class Product {
 
   static delProductById(id) {
     getProductsFromFile((products) => {
-      
-      if (id) {
-        const filteredProduct = products.filter((prod) => prod.id !== id);
-        
-        const updatedProducts = [...filteredProduct];
-        
-        fs.writeFile(p, JSON.stringify(updatedProducts), (err) => {
+
+      const product = products.find(prods => prods.id === id)
+      const filteredProduct = products.filter((prod) => prod.id !== id);
+
+      const updatedProducts = [...filteredProduct];
+
+      fs.writeFile(p, JSON.stringify(updatedProducts), (err) => {
+        if (!err) {
+          Cart.delCartProduct(id, product.price);
+        } else {
           console.log(err);
-        });
-      }
+        }
+      });
     });
   }
 
