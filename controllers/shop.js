@@ -80,6 +80,15 @@ exports.postCart = (req, res, next) => {
   res.redirect("/");
 };
 
+exports.delCartItem = (req,res,next)=>{
+  const prodId = req.body.productId;
+  Product.findById(prodId, (product) => {
+    const productPrice = product.price
+    Cart.delCartProduct(prodId,productPrice);
+    res.redirect('/cart')
+  });
+}
+
 exports.getOrders = (req, res, next) => {
   Product.fetchAll((products) => {
     res.render("shop/orders", {
